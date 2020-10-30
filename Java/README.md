@@ -17,9 +17,13 @@ Ao realizar um teste eu sempre vou precisar desses três itens:
 ### O princípio FIRST
 
 **F**ast
+
 **I**ndependent
+
 **R**epeatable
+
 **S**elf-Verifying
+
 **T**imely
 
 **Fast:** Um teste deve ser rápido.
