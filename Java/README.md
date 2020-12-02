@@ -196,4 +196,86 @@ O ideal é deixar os testes independentes e não necessitar de ordens.
 O @Ignore simplesmente igrnora o teste e mostra na switch de teste que está sendo ignorado.
 
 **Assumptions**
+Devo colocar logo no início do teste:
+```java
+Assume.assumeTrue(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
+```
+Esse codigo faz com que esse teste somente execute aos sábados.
 
+#### Matchers
+
+Eu posso criar meus próprios matchers.
+
+Para isso, devo criar o meu Matcher propriamente dito que nesse caso sera o DiaSemanaMAtcher.java:
+
+```java
+package br.ce.wcaquino.matchers;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
+import org.hamcrest.Description;
+import org.hamcrest.TypeSafeMatcher;
+
+import br.ce.wcaquino.utils.DataUtils;
+
+public class DiaSemanaMatcher extends TypeSafeMatcher<Date> {
+
+	private Integer diaSemana;
+	
+	public DiaSemanaMatcher(Integer diaSemana) {
+		this.diaSemana = diaSemana;
+	}
+	
+	public void describeTo(Description desc) {
+		Calendar data = Calendar.getInstance();
+		data.set(Calendar.DAY_OF_WEEK, diaSemana);
+		String dataExtenso = data.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, new Locale("pt", "BR"));
+		desc.appendText(dataExtenso);
+	}
+
+	@Override
+	protected boolean matchesSafely(Date data) {
+		return DataUtils.verificarDiaSemana(data, diaSemana);
+	}
+
+}
+```
+E depois reuni-los em uma classe central que chamarei de MatchersProprios.java:
+```java
+package br.ce.wcaquino.matchers;
+
+import java.util.Calendar;
+
+public class MatchersProprios {
+
+	public static DiaSemanaMatcher caiEm(Integer diaSemana) {
+		return new DiaSemanaMatcher(diaSemana);
+	}
+	
+	public static DiaSemanaMatcher caiNumaSegunda(){
+		return new DiaSemanaMatcher(Calendar.MONDAY);
+	}
+}
+```
+
+por fim, para usar o meu próprio Matcher, posso fazer da seguinte forma:
+
+```java
+@Test
+	public void deveDevolverNaSegundaAoAlugarNoSabado() throws FilmeSemEstoqueException, LocadoraException{
+		Assume.assumeTrue(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
+		
+		//cenario
+		Usuario usuario = new Usuario("Usuario 1");
+		List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 1, 5.0));
+		
+		//acao
+		Locacao retorno = service.alugarFilme(usuario, filmes);
+		
+		//verificacao
+		assertThat(retorno.getDataRetorno(), caiNumaSegunda());
+		
+	}
+```
