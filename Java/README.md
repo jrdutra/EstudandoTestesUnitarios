@@ -35,3 +35,14 @@ Ao realizar um teste eu sempre vou precisar desses três itens:
 **Self-verifying:** Um teste deve se auto verificar.
 
 **Timely:** Um teste deve ser oportuno.
+
+### Assetivas
+
+1. AssertTrue
+2. AssetFalse
+3. AssertEquals (Para floats, tenho que passar um delta de comparação)
+4. AssertNotEquals
+4. AssertSame (Verifica se os objetos são da mesma instância)
+5. AssertnotSame
+5. AssetNull
+6. AssetNotNull
