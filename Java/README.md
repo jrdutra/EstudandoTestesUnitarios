@@ -145,7 +145,7 @@ public void testLocacao_filmeSemEstoque_3() throws Exception {
 
 A mais recomendada é a robusta, pois atende a maior parte dos casos.
 
-#### Anitações Before e After
+#### Anitações @Before e @After
 
 **Before e After**
 São duas anotações que me permite criar bloco de códigos a serem executados antes e depois de cada teste.
@@ -165,7 +165,7 @@ public void setup(){
 }
 ```
 
-**BeforeClass e AfterClass
+**BeforeClass e AfterClass**
 
 São anotações que utilizamos para executar bloco de código antes de classe ser instanciada e depois da classe ser destruida.
 Essas anotações são utilizadas quando eu preciso de executar um bloco de código antes de todos os testes e depois de todos os testes.
@@ -178,3 +178,22 @@ public static void setupClass(){
 }
 ```
 Devemos observar que o método com essas anotações devem ser estáticos, pois são executados antes da classe ser instanciada.
+
+#### Ordem dos testes
+
+Para garantir a ordem dos testes dentro de uma classe de teste, eu devo usar a seguinte anotação na classe:
+
+```java
+@FixedMethodorder(MethodSorters.NAME_ASCENDING)
+```
+
+E claro, de alguma forma, nomear as funções de testes em ordem alfabética.
+O ideal é deixar os testes independentes e não necessitar de ordens.
+
+####  Anotação @Ignore e os Assumptions
+
+**Ignore**
+O @Ignore simplesmente igrnora o teste e mostra na switch de teste que está sendo ignorado.
+
+**Assumptions**
+
