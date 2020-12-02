@@ -18,7 +18,7 @@ Ao realizar um teste eu sempre vou precisar desses três itens:
 
 **F**ast
 
-**I**ndependent
+**I**ndependent e Isolado
 
 **R**epeatable
 
@@ -70,3 +70,77 @@ Com as devidas impotações de funções estáticas do CoreMatchers, posso escre
 assertThat(5.0, is(equalTo(5.0)));
 assertThat(5.0, is(not(5.0)));
 ```
+
+### Rules
+Por exemplo no lugar do assertThat, eu posso usar:
+
+```java
+@Rule
+public ErrorCollector error = new ErrorCollector();
+
+@Test
+public void meuTeste(){
+	error.checkThat(5.0, is(5,0));
+    error.checkThat(5.0, is(not(5.0)));
+}
+```
+Usando as Rules, eu consegui rastrear todos os erros dentro de uma função de teste, enquanto usando o Assert, eu devo ter apenas um assert por função de teste, pois eu não consigo rastrear todos os erros, apenas o primeiro.
+
+### Exceções
+
+Escrevendo uma função de teste que já espera uma exceção:
+
+**Forma elegante:**
+```java
+@Test(expected = Exception.class)
+public void testLocacao_filmeSemEstoque() throws Exception{
+    //cenario
+    LocacaoService service = new LocacaoService();
+    Usuario usuario = new Usuario("Usuario 1");
+    Filme filme = new Filme("Filme 2", 0, 4.0);
+
+    //acao
+    service.alugarFilme(usuario, filme);
+}
+```
+
+**Forma robusta:**
+```java
+@Test
+public void testLocacao_filmeSemEstoque_2() {
+    //cenario
+    LocacaoService service = new LocacaoService();
+    Usuario usuario = new Usuario("Usuario 1");
+    Filme filme = new Filme("Filme 2", 0, 4.0);
+
+    //acao
+    try {
+        service.alugarFilme(usuario, filme);
+        Assert.fail("Deveria ter lancado uma excecao");
+    } catch (Exception e) {
+        assertThat(e.getMessage(), is("Filme sem estoque"));
+    }
+}
+```
+
+**Forma nova**
+```java
+@Rule
+public ExpectedException exception = ExpectedException.none();
+
+@Test
+public void testLocacao_filmeSemEstoque_3() throws Exception {
+    //cenario
+    LocacaoService service = new LocacaoService();
+    Usuario usuario = new Usuario("Usuario 1");
+    Filme filme = new Filme("Filme 2", 1, 4.0);
+
+    exception.expect(Exception.class);
+    exception.expectMessage("Filme sem estoque");
+
+    //acao
+    service.alugarFilme(usuario, filme);
+}
+```
+
+A mais recomendada é a robusta, pois atende a maior parte dos casos.
