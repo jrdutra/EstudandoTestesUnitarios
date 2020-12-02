@@ -264,7 +264,7 @@ por fim, para usar o meu próprio Matcher, posso fazer da seguinte forma:
 
 ```java
 @Test
-	public void deveDevolverNaSegundaAoAlugarNoSabado() throws FilmeSemEstoqueException, LocadoraException{
+public void deveDevolverNaSegundaAoAlugarNoSabado() throws FilmeSemEstoqueException, LocadoraException{
 		Assume.assumeTrue(DataUtils.verificarDiaSemana(new Date(), Calendar.SATURDAY));
 		
 		//cenario
@@ -279,3 +279,4 @@ por fim, para usar o meu próprio Matcher, posso fazer da seguinte forma:
 		
 	}
 ```
+
