@@ -144,3 +144,37 @@ public void testLocacao_filmeSemEstoque_3() throws Exception {
 ```
 
 A mais recomendada é a robusta, pois atende a maior parte dos casos.
+
+#### Anitações Before e After
+
+**Before e After**
+São duas anotações que me permite criar bloco de códigos a serem executados antes e depois de cada teste.
+Exemplo:
+```java
+
+private LocacaoService service; //Essa instancia deve ser global para
+								//ser visível em cada teste.
+@Before
+public void setup(){
+    service = new LocacaoService();
+}
+
+@After
+public void setup(){
+    service = new LocacaoService();
+}
+```
+
+**BeforeClass e AfterClass
+
+São anotações que utilizamos para executar bloco de código antes de classe ser instanciada e depois da classe ser destruida.
+Essas anotações são utilizadas quando eu preciso de executar um bloco de código antes de todos os testes e depois de todos os testes.
+
+Exemplo:
+```java
+@BeforeClass
+public static void setupClass(){
+	System.out.println("Before Class")
+}
+```
+Devemos observar que o método com essas anotações devem ser estáticos, pois são executados antes da classe ser instanciada.
