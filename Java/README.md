@@ -46,3 +46,27 @@ Ao realizar um teste eu sempre vou precisar desses três itens:
 5. AssertnotSame
 5. AssetNull
 6. AssetNotNull
+7. AssertThat
+
+Posso colocar uma String para mencionar que erro foi nos asserts. Por exemplo:
+
+```java
+Assert.assertEquals("Erro de comparação", 1, 2);
+```
+
+Nos assets, quando com dois valores, o primeiro valor é o esperado e o segundo o aual. É importante colocar nos locais corretos pois quando o teste não passa, é mais fácil de ler o erro.
+
+**AssertThat**
+No AcertThat o primeiro valor é o valor atual e o segundo o valor esperado.
+
+Exemplo de uso:
+
+```java
+Assert.assertThat(5.0, CoreMatchers.is(5,0));
+```
+Com as devidas impotações de funções estáticas do CoreMatchers, posso escrever da seguinte forma:
+
+```java
+assertThat(5.0, is(equalTo(5.0)));
+assertThat(5.0, is(not(5.0)));
+```
