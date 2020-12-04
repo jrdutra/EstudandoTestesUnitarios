@@ -5,5 +5,6 @@ while true; do
 	git push
 	read
 	sleep 5
+	clear
 done
 
